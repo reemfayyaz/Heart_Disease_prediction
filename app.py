@@ -26,18 +26,24 @@ oldpeak = st.number_input("Oldpeak", 0.0, 10.0, 1.0, 0.1)
 smoking = st.selectbox("Smoking", [0,1])
 
 if st.button("Predict"):
-    features = np.array([[patient_id, age, gender, chest_pain, resting_bp,
-                          cholesterol, fasting_bs, max_hr,
-                          exercise_angina, oldpeak, smoking]])
-    pred = model.predict(features)[0]
-    if pred == 1:
-        st.error("⚠️ Heart Disease Detected")
-    else:
-        st.success("✅ No Heart Disease Detected")
-    try:
-        prob = model.predict_proba(features)[0]
-        st.write(f"No Heart Disease: {prob[0]*100:.2f}%")
-        st.write(f"Heart Disease: {prob[1]*100:.2f}%")
-        st.progress(float(prob[1]))
-    except Exception:
-        pass
+
+    features = np.array([[
+        patient_id,
+        age,
+        gender,
+        chest_pain,
+        resting_bp,
+        cholesterol,
+        fasting_bs,
+        max_hr,
+        exercise_angina,
+        oldpeak,
+        smoking
+    ]])
+
+    prediction = model.predict(features)[0]
+
+    st.divider()
+
+    st.subheader("Prediction Result")
+    st.write(f"**Predicted Value:** {int(prediction)}")
